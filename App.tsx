@@ -1,9 +1,32 @@
+import {useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  LogBox,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import useSpeech from './src/hooks/useSpeech';
+import auth from './src/api/auth';
+
+LogBox.ignoreLogs(['new NativeEventEmitter()']);
 
 const App = () => {
   const {speech, startListening} = useSpeech();
+
+  useEffect(() => {
+    auth.login();
+  }, []);
+
+  if (!auth.authenticated) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size={50} />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

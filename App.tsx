@@ -1,49 +1,42 @@
-import {useEffect} from 'react';
 import {StatusBar} from 'expo-status-bar';
-import {
-  ActivityIndicator,
-  Button,
-  LogBox,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import useSpeech from './src/hooks/useSpeech';
+import {LogBox, StyleSheet} from 'react-native';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
+import * as SplashScreen from 'expo-splash-screen';
+
 import auth from './src/api/auth';
+import MainNav from './src/navigation/MainNav';
+import {useEffect} from 'react';
+import usePrefetch from './src/hooks/usePrefetch';
 
 LogBox.ignoreLogs(['new NativeEventEmitter()']);
 
+SplashScreen.preventAutoHideAsync();
+
 const App = () => {
-  const {speech, startListening} = useSpeech();
+  usePrefetch();
 
   useEffect(() => {
-    auth.login();
-  }, []);
-
-  if (!auth.authenticated) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size={50} />
-      </View>
-    );
-  }
+    (async () => {
+      if (auth.authenticated) {
+        await SplashScreen.hideAsync();
+      }
+    })();
+  }, [auth.authenticated]);
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <Text>{speech}</Text>
-      <StatusBar style="auto" />
-      <Button onPress={startListening} title="Text to speech" />
-    </View>
+    <SafeAreaProvider style={styles.container}>
+      <NavigationContainer>
+        <StatusBar translucent={true} />
+        <MainNav />
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

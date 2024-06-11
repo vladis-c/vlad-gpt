@@ -1,5 +1,5 @@
 import {Text, View, StyleSheet} from 'react-native';
-import { NamesScreenNavigationProps} from '../navigation';
+import {NamesScreenNavigationProps} from '../navigation';
 
 const NamesScreen = ({navigation}: NamesScreenNavigationProps) => {
   return (
@@ -12,5 +12,9 @@ const NamesScreen = ({navigation}: NamesScreenNavigationProps) => {
 export default NamesScreen;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

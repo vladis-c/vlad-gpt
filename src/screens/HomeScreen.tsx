@@ -1,10 +1,11 @@
 import {Text, View, StyleSheet, Button} from 'react-native';
 import {HomeScreenNavigationProps, MAIN_NAV} from '../navigation';
 import useSpeech from '../hooks/useSpeech';
-import db from '../api/db';
+import useSetDoc from '../hooks/useSetDoc';
 
 const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
   const {speech, startListening} = useSpeech();
+  const {setDoc} = useSetDoc();
 
   return (
     <View style={styles.container}>
@@ -15,7 +16,7 @@ const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
       {speech ? (
         <>
           <Button
-            onPress={() => db.setDoc(speech, 0)}
+            onPress={() => setDoc(speech)}
             title={`Add "${speech}" to the list`}
           />
           <View style={{height: 50}} />

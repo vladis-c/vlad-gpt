@@ -2,10 +2,12 @@ import {Text, View, StyleSheet, Button} from 'react-native';
 import {HomeScreenNavigationProps, MAIN_NAV} from '../navigation';
 import useSpeech from '../hooks/useSpeech';
 import useSetDoc from '../hooks/useSetDoc';
+import useCommunicate from '../hooks/useCommunicate';
 
 const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
   const {speech, startListening} = useSpeech();
   const {setDoc} = useSetDoc();
+  const {communicate} = useCommunicate();
 
   return (
     <View style={styles.container}>
@@ -25,6 +27,10 @@ const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
       <Button
         onPress={() => navigation.navigate(MAIN_NAV.NAMES)}
         title="See the list of the names"
+      />
+      <Button
+        onPress={() => communicate({content: 'Hello', role: 'user'})}
+        title="Open ai communication"
       />
     </View>
   );

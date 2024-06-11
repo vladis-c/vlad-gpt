@@ -5,3 +5,8 @@ export type Name = {
   name: string;
   createdAt: Timestamp;
 };
+
+export type Message = {
+  role: 'system' | 'user';
+  content: string;
+};

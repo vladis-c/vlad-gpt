@@ -9,6 +9,7 @@ import MainNav from './src/navigation/MainNav';
 import {useEffect} from 'react';
 import usePrefetch from './src/hooks/usePrefetch';
 import NamesContextProvider from './src/context/NamesContext';
+import MessagesContextProvider from './src/context/MessagesContext';
 
 LogBox.ignoreLogs(['new NativeEventEmitter()']);
 
@@ -27,12 +28,14 @@ const App = () => {
 
   return (
     <SafeAreaProvider style={styles.container}>
-      <NamesContextProvider>
-        <NavigationContainer>
-          <StatusBar translucent={true} />
-          <MainNav />
-        </NavigationContainer>
-      </NamesContextProvider>
+      <MessagesContextProvider>
+        <NamesContextProvider>
+          <NavigationContainer>
+            <StatusBar translucent={true} />
+            <MainNav />
+          </NavigationContainer>
+        </NamesContextProvider>
+      </MessagesContextProvider>
     </SafeAreaProvider>
   );
 };

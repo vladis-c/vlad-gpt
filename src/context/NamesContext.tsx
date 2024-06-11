@@ -21,10 +21,6 @@ const NamesContextProvider = ({children}: {children: React.ReactNode}) => {
     })();
   }, []);
 
-  useEffect(() => {
-    console.log('Names:', names);
-  }, [names]);
-
   return (
     <NamesContext.Provider value={{names, setNames}}>
       {children}

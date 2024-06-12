@@ -6,7 +6,23 @@ export type Name = {
   createdAt: Timestamp;
 };
 
-export type Message = {
-  role: 'system' | 'user';
-  content: string;
+// REQUEST
+
+const ROLE = {
+  USER: 'user',
+  MODEL: 'model',
+} as const;
+
+export type Role = ObjectValues<typeof ROLE>;
+
+export type Message<R extends Role = 'user'> = {
+  [K in R extends 'user' ? 'contents' : 'content']: {
+    role: Role;
+    parts: {text: string}[];
+  };
+};
+
+// RESPONSE
+export type AIResponse = {
+  candidates: Message<'model'>[];
 };

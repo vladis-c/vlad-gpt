@@ -1,4 +1,4 @@
-import {createContext, useState} from 'react';
+import {createContext, useEffect, useState} from 'react';
 import {Message} from '../types';
 
 type MessagesContextProps = {
@@ -10,6 +10,10 @@ export const MessagesContext = createContext({} as MessagesContextProps);
 
 const MessagesContextProvider = ({children}: {children: React.ReactNode}) => {
   const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    console.log('Messages', messages);
+  }, [messages]);
 
   return (
     <MessagesContext.Provider value={{messages, setMessages}}>

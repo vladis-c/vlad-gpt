@@ -7,7 +7,6 @@ const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
 
   return (
     <View style={styles.container}>
-      <View style={{height: 20}} />
       <Text>Press to talk!</Text>
       <Text>{speech.join(', ')}</Text>
       <Button onPress={startListening} title="Text to speech" />

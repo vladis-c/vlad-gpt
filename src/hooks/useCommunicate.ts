@@ -7,19 +7,36 @@ import {NamesContext} from '../context/NamesContext';
 import useSetDoc from './useSetDoc';
 
 const NO_NAME = 'Suitable name not found';
+const EXCLUDED_NAMES = [
+  'Vladilen',
+  'Vladlen',
+  'Vladimir',
+  'Vyacheslav',
+  'Stanislav',
+  'Borislav',
+  'Yaroslav',
+];
 
 const useCommunicate = () => {
   const {setMessages, messages} = useContext(MessagesContext);
   const {names} = useContext(NamesContext);
   const {setDoc} = useSetDoc();
 
-  const communicate = async (list: string[], message: 1 | 2, callback: () => void) => {
+  const communicate = async (
+    list: string[],
+    message: 1 | 2,
+    callback: () => void,
+  ) => {
     const MESSAGE_1 = `
     Inspect the following list of names: ${list.join(', ')}.\n
     They all should be the variations of a name 'Vladislav'.\n
     You have to find me one, which is closer to this name.\n
     If none of them were close to the name 'Vladislav', then try to change letters or combinations from the inspected list of names, and try to give the possible corrected word that is something in between what was in the list to the required name 'Vladislav':
-    maybe change a letter or a part of the word of one of the names from the list.
+    maybe change a letter or a part of the word of one of the names from the list.\n
+    Also remember, that names ${EXCLUDED_NAMES.map(el => "'" + el + "'").join(
+      ', ',
+    )} and their derived names are completely different names and are not connected to the name 'Vladislav'.
+    Any attemt to list such a name should be treated like you have not found a suitable name close to 'Vladislav'.\n
     Reply only with one selected name. Or if there is no name close to 'Vladislav', reply with "${NO_NAME}"
     `;
 
@@ -62,7 +79,7 @@ const useCommunicate = () => {
                 text: 'Add',
                 onPress: async () => {
                   await setDoc(suitableName);
-                  callback()
+                  callback();
                 },
               },
               {text: 'Cancel', onPress: () => {}},

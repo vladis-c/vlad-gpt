@@ -5,28 +5,32 @@ import useSetDoc from '../hooks/useSetDoc';
 import useCommunicate from '../hooks/useCommunicate';
 import {useContext} from 'react';
 import {MessagesContext} from '../context/MessagesContext';
+import {NamesContext} from '../context/NamesContext';
 
 const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
   const {speech, startListening} = useSpeech();
   const {messages} = useContext(MessagesContext);
+  const {names} = useContext(NamesContext);
   const {setDoc} = useSetDoc();
   const {communicate} = useCommunicate();
 
   return (
     <View style={styles.container}>
+      <Text>Names:</Text>
+      <View style={{height: 10}} />
+      <Text>
+        {names.length > 0 ? names.map(el => el.name).join(',\n') : 'no names'}
+      </Text>
+      <View style={{height: 20}} />
       <Text>Press to talk!</Text>
       <Text>{speech.join(', ')}</Text>
       <Button onPress={startListening} title="Text to speech" />
       <View style={{height: 50}} />
-      {speech ? (
-        <>
-          <Button
-            onPress={() => setDoc(speech[0])}
-            title={`Add "${speech[0]}" to the list`}
-          />
-          <View style={{height: 50}} />
-        </>
-      ) : null}
+      <Button
+        onPress={() => setDoc('Vlad')}
+        title={`Add "${speech[0]}" to the list`}
+      />
+      <View style={{height: 50}} />
       {/* <Button
         onPress={() => navigation.navigate(MAIN_NAV.NAMES)}
         title="See the list of the names"

@@ -15,12 +15,7 @@ const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
   const {communicate} = useCommunicate();
 
   return (
-    <View style={styles.container}>
-      <Text>Names:</Text>
-      <View style={{height: 10}} />
-      <Text>
-        {names.length > 0 ? names.map(el => el.name).join(',\n') : 'no names'}
-      </Text>
+    <View style={styles.container}>     
       <View style={{height: 20}} />
       <Text>Press to talk!</Text>
       <Text>{speech.join(', ')}</Text>
@@ -44,14 +39,7 @@ const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
         </Text>
       ) : null}
       <Button
-        onPress={() =>
-          communicate({
-            contents: {
-              role: 'user',
-              parts: [{text: speech[0]}],
-            },
-          })
-        }
+        onPress={() => communicate('Vlad')}
         title="Vertex AI communication"
       />
     </View>

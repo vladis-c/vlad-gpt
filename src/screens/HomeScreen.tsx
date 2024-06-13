@@ -1,9 +1,11 @@
 import {Text, View, StyleSheet, Button} from 'react-native';
-import {HomeScreenNavigationProps} from '../navigation';
+import {HomeScreenNavigationProps, MAIN_NAV} from '../navigation';
 import useSpeech from '../hooks/useSpeech';
 
 const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
-  const {speech, startListening} = useSpeech();
+  const {speech, startListening} = useSpeech({
+    onOpenNamesScreen: () => navigation.navigate(MAIN_NAV.NAMES),
+  });
 
   return (
     <View style={styles.container}>

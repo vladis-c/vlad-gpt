@@ -2,7 +2,9 @@ import {useEffect, useState} from 'react';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 import useCommunicate from './useCommunicate';
 
-const useSpeech = () => {
+type UseSpeechProps = {onOpenNamesScreen: () => void};
+
+const useSpeech = ({onOpenNamesScreen}: UseSpeechProps) => {
   const [speech, setSpeech] = useState<string[]>([]);
   const [ended, setEnded] = useState(false);
 
@@ -28,12 +30,8 @@ const useSpeech = () => {
   };
 
   useEffect(() => {
-    communicate(['GLaDOS, lottos, Vlados'], 1);
-  }, []);
-
-  useEffect(() => {
     if (speech.length > 0 && ended) {
-      communicate(speech, 1);
+      communicate(speech, 1, onOpenNamesScreen);
     }
   }, [speech, ended]);
 

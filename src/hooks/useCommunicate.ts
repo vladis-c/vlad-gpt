@@ -13,7 +13,7 @@ const useCommunicate = () => {
   const {names} = useContext(NamesContext);
   const {setDoc} = useSetDoc();
 
-  const communicate = async (list: string[], message: 1 | 2) => {
+  const communicate = async (list: string[], message: 1 | 2, callback: () => void) => {
     const MESSAGE_1 = `
     Inspect the following list of names: ${list.join(', ')}.\n
     They all should be the variations of a name 'Vladislav'.\n
@@ -43,13 +43,14 @@ const useCommunicate = () => {
     });
 
     if (aiMessage) {
+      setMessages([...messages, aiMessage]);
       if (message === 1) {
         const suitableName = aiMessage.contents.parts
           .map(el => el.text)
           .join('')
           .replace(/[^\w\s]/gi, ''); // removes special charachters
         if (suitableName.includes(NO_NAME)) {
-          Alert.alert("Please record the voice again");
+          Alert.alert('Please record the voice again');
         } else {
           Alert.alert(
             'Suitable name found',
@@ -59,14 +60,16 @@ const useCommunicate = () => {
             [
               {
                 text: 'Add',
-                onPress: async () => await setDoc(suitableName),
+                onPress: async () => {
+                  await setDoc(suitableName);
+                  callback()
+                },
               },
               {text: 'Cancel', onPress: () => {}},
             ],
           );
         }
       }
-      setMessages([...messages, aiMessage]);
     }
   };
   return {communicate};

@@ -1,5 +1,5 @@
 import {Text, View, StyleSheet, Button} from 'react-native';
-import {HomeScreenNavigationProps, MAIN_NAV} from '../navigation';
+import {HomeScreenNavigationProps} from '../navigation';
 import useSpeech from '../hooks/useSpeech';
 import useSetDoc from '../hooks/useSetDoc';
 import useCommunicate from '../hooks/useCommunicate';
@@ -8,26 +8,21 @@ import {MessagesContext} from '../context/MessagesContext';
 
 const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
   const {speech, startListening} = useSpeech();
-  const {messages, setMessages} = useContext(MessagesContext);
+  const {messages} = useContext(MessagesContext);
   const {setDoc} = useSetDoc();
   const {communicate} = useCommunicate();
 
   return (
     <View style={styles.container}>
       <Text>Press to talk!</Text>
-      <Text>{speech}</Text>
+      <Text>{speech.join(', ')}</Text>
       <Button onPress={startListening} title="Text to speech" />
       <View style={{height: 50}} />
       {speech ? (
         <>
           <Button
-            onPress={() =>
-              setMessages([
-                ...messages,
-                {contents: {role: 'user', parts: [{text: speech}]}},
-              ])
-            }
-            title={`Add "${speech}" to the list`}
+            onPress={() => setDoc(speech[0])}
+            title={`Add "${speech[0]}" to the list`}
           />
           <View style={{height: 50}} />
         </>
@@ -49,7 +44,7 @@ const HomeScreen = ({navigation}: HomeScreenNavigationProps) => {
           communicate({
             contents: {
               role: 'user',
-              parts: [{text: speech}],
+              parts: [{text: speech[0]}],
             },
           })
         }

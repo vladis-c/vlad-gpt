@@ -2,22 +2,23 @@ import {useEffect, useState} from 'react';
 import Voice, {SpeechResultsEvent} from '@react-native-voice/voice';
 
 const useSpeech = () => {
-  const [speech, setSpeech] = useState('');
+  const [speech, setSpeech] = useState<string[]>([]);
 
   const startListening = async () => {
-    setSpeech('');
+    setSpeech([]);
     await Voice.start('en_US');
   };
 
   const onSpeechPartialResults = (e: SpeechResultsEvent) => {
     if (e.value) {
-      setSpeech(e.value.join(''));
+      const newSpeech = [...speech, ...e.value]
+      setSpeech(newSpeech);
     }
   };
 
   const onSpeechResults = (e: SpeechResultsEvent) => {
     if (e.value) {
-      setSpeech(e.value[0]);
+      setSpeech(e.value);
     }
   };
 
